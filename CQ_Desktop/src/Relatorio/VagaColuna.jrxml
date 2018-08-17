@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VagaColuna" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca43ae5f-dd1c-4e37-bbee-f99046937127">
+	<property name="ireport.zoom" value="1.3995221406291998"/>
+	<property name="ireport.x" value="107"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="User_name" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT tb_coluna.*, tb_metodologia.cod_metodo,
+tb_metodologia.metodo, tb_metodologia.versao, tb_analise.analise, tb_analise.sigla_analise,
+tb_setor.*, tb_analise_finalidade.analise_finalidade
+FROM tb_coluna
+LEFT JOIN tb_metodologia
+ON tb_coluna.metodo_id = tb_metodologia.metodo_id
+LEFT JOIN tb_analise
+ON tb_coluna.analise_id = tb_analise.analise_id
+LEFT JOIN tb_analise_finalidade
+ON tb_coluna.analise_finalidade_id = tb_analise_finalidade.analise_finalidade_id
+LEFT JOIN tb_setor
+ON tb_coluna.setor_id = tb_setor.setor_id
+ORDER BY tb_setor.sigla_setor]]>
+	</queryString>
+	<field name="coluna_id" class="java.lang.Object"/>
+	<field name="codigo_sap_coluna" class="java.lang.Object"/>
+	<field name="setor_id" class="java.lang.Object"/>
+	<field name="metodo_id" class="java.lang.Object"/>
+	<field name="analise_id" class="java.lang.Object"/>
+	<field name="analise_finalidade_id" class="java.lang.Object"/>
+	<field name="cod_coluna" class="java.lang.Object"/>
+	<field name="tipo_coluna" class="java.lang.Object"/>
+	<field name="fabricante_coluna" class="java.lang.Object"/>
+	<field name="marca_coluna" class="java.lang.Object"/>
+	<field name="fase_coluna" class="java.lang.Object"/>
+	<field name="tamanho_coluna" class="java.lang.Object"/>
+	<field name="diametro_coluna" class="java.lang.Object"/>
+	<field name="particula_coluna" class="java.lang.Object"/>
+	<field name="part_number_coluna" class="java.lang.Object"/>
+	<field name="serial_number_coluna" class="java.lang.Object"/>
+	<field name="data_ativacao_coluna" class="java.lang.Object"/>
+	<field name="user_name_ativacao" class="java.lang.Object"/>
+	<field name="data_descarte_coluna" class="java.lang.Object"/>
+	<field name="user_name_descarte" class="java.lang.Object"/>
+	<field name="data_performance" class="java.lang.Object"/>
+	<field name="user_name_performance" class="java.lang.Object"/>
+	<field name="obs_coluna" class="java.lang.Object"/>
+	<field name="vaga_coluna_id" class="java.lang.Object"/>
+	<field name="cod_metodo" class="java.lang.Object"/>
+	<field name="metodo" class="java.lang.Object"/>
+	<field name="versao" class="java.lang.Object"/>
+	<field name="analise" class="java.lang.Object"/>
+	<field name="sigla_analise" class="java.lang.Object"/>
+	<field name="setor" class="java.lang.Object"/>
+	<field name="sigla_setor" class="java.lang.Object"/>
+	<field name="descricao_setor" class="java.lang.Object"/>
+	<field name="analise_finalidade" class="java.lang.Object"/>
+	<group name="Setor">
+		<groupExpression><![CDATA[$F{sigla_setor}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<rectangle>
+					<reportElement x="0" y="0" width="802" height="20" backcolor="#999999" uuid="602e43b3-f8af-4fa6-bbce-be1b7281e1ef"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="0" y="0" width="409" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="4092c012-8826-4342-a55f-6aba0508f285"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[""+$F{descricao_setor}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="20" width="802" height="1" forecolor="#666666" uuid="663b5166-c476-4fa7-b4b9-0a7268f1409b"/>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="27">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="-20" width="802" height="47" backcolor="#006699" uuid="38994bad-a527-44ed-ad4b-ade180c09bc3"/>
+				<staticText>
+					<reportElement x="0" y="20" width="582" height="20" forecolor="#FFFFFF" uuid="88894c76-6ef5-4db3-9df1-4873180db887"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Colunas Cromatográficas]]></text>
+				</staticText>
+				<textField pattern="MMMMM/yyyy">
+					<reportElement x="582" y="20" width="220" height="20" forecolor="#FFFFFF" uuid="d04c5136-e2da-4c95-a240-54d5a3805ce5"/>
+					<box rightPadding="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="36" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="9b8b7c32-ec03-44dc-bd64-051396403f7a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="322" y="0" width="87" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="ebc6665f-7e53-4edf-8c7e-0d656e82e25b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código SAP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="602" y="0" width="116" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="23961e77-1237-41aa-a07f-0f70ee7abd98"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observações]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="36" y="0" width="81" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="6cd0e96c-b69a-44f0-a6e9-4a1474b34bcd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="117" y="0" width="205" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="2b49d065-27a1-4bc6-b6bc-a1367b3c323e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Coluna]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="718" y="0" width="84" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="a38530ee-2d63-4ad2-ae39-90d7e4d1c99e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vaga]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="409" y="0" width="72" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="57b8de76-8cec-4b51-a8c6-e182a6bc268f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Método]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="481" y="0" width="121" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="76cb537d-313e-4beb-960a-bedfb17df24f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Análise]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="9" width="802" height="1" uuid="c35e6dc7-a002-4c63-bdb3-6f489489aa6f"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="36" height="10" uuid="7c1cf0b3-0a8e-4b94-9d1a-10302a6fab8d"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{coluna_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="322" y="0" width="87" height="10" uuid="c2aeba14-96bd-4522-8eb3-432b0d3dd359"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{codigo_sap_coluna}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="36" y="0" width="81" height="10" uuid="072f3adb-a0db-4226-a190-b6819daa8ecb"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CQ-"+
+$F{tipo_coluna}+"-"+
+"0000".toString().substring($F{cod_coluna}.toString().length())+
+$F{cod_coluna}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="117" y="0" width="205" height="10" uuid="8309fc8e-952c-457d-bdfd-d5b1a1ba9273"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fabricante_coluna}+" "+
+$F{marca_coluna}+" "+
+$F{tipo_coluna} + " " +
+$F{tamanho_coluna} + "mm x " +
+$F{diametro_coluna} + "mm x " +
+$F{particula_coluna} + "um "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="602" y="0" width="116" height="10" uuid="62739877-580c-45a3-bf05-dc04f116dc63"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obs_coluna}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="718" y="0" width="84" height="10" uuid="8c36537a-a84d-4cfd-8ef5-0d735a88d9e1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{vaga_coluna_id}.equals(0) ? "Descartada" : $F{vaga_coluna_id} )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="409" y="0" width="72" height="10" uuid="8fb2f6cf-bd11-407f-85bc-ec7aa2a799df"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{metodo_id}.equals(0) ? "Multipropósito" : $F{cod_metodo} + " V. " +   $F{versao} )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="481" y="0" width="121" height="10" uuid="88c28b41-de2f-49e9-a85e-edb8341118aa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{analise_id}.equals(0) ? "Multipropósito" : $F{analise} )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="14">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="762" height="13" backcolor="#E6E6E6" uuid="a801aea3-83fa-4382-baf5-f877e2a5b4bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="742" y="0" width="40" height="13" backcolor="#E6E6E6" uuid="5cb24f14-1bdc-484d-b692-c2a24f11e9de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="117" height="13" uuid="c66b57cc-9486-48bb-90b8-70a9d50833e2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{User_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="296" y="0" width="185" height="13" uuid="5c09c79a-edf0-483f-b601-6a4c0325e55d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total: " + $V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement x="117" y="0" width="179" height="13" uuid="13537a6d-b7fc-40a0-af5b-e11b934c390e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Vidraria" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1af668f-0866-4b7b-a836-a4a17bf2b4ed">
+	<property name="ireport.zoom" value="1.331000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="User_name" class="java.lang.String"/>
+	<parameter name="Sql" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT tb_vidraria.vidraria_id,
+tb_vidraria_tipo.vidraria_tipo, tb_vidraria.volume,
+tb_unidade.sigla_unidade, tb_vidraria.certificado,
+tb_vidraria.data_entrada, tb_vidraria.data_saida,
+tb_setor.sigla_setor, tb_vidraria.obs_vidraria,
+tb_vidraria.responsavel_entrada, tb_vidraria.responsavel_saida
+FROM tb_vidraria
+INNER JOIN tb_vidraria_tipo
+ON tb_vidraria.vidraria_tipo_id = tb_vidraria_tipo.vidraria_tipo_id
+INNER JOIN tb_setor
+ON tb_vidraria.setor_id = tb_setor.setor_id
+INNER JOIN tb_unidade
+ON tb_vidraria.unidade_id = tb_unidade.unidade_id
+WHERE 1 = 1 $P!{Sql}
+ORDER BY tb_setor.sigla_setor, tb_vidraria_tipo.vidraria_tipo, tb_vidraria.volume Desc]]>
+	</queryString>
+	<field name="vidraria_id" class="java.lang.Object"/>
+	<field name="vidraria_tipo" class="java.lang.Object"/>
+	<field name="volume" class="java.lang.Object"/>
+	<field name="sigla_unidade" class="java.lang.Object"/>
+	<field name="certificado" class="java.lang.Object"/>
+	<field name="data_entrada" class="java.sql.Timestamp"/>
+	<field name="data_saida" class="java.sql.Timestamp"/>
+	<field name="sigla_setor" class="java.lang.Object"/>
+	<field name="obs_vidraria" class="java.lang.Object"/>
+	<field name="responsavel_entrada" class="java.lang.Object"/>
+	<field name="responsavel_saida" class="java.lang.Object"/>
+	<group name="sigla_setor">
+		<groupExpression><![CDATA[$F{sigla_setor}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="3" width="802" height="24" forecolor="#B89F7D" backcolor="#CCCCFF" uuid="5056f0d6-daa1-4e92-9976-eee94f0197bd"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="SubTitle" x="2" y="0" width="800" height="24" forecolor="#000000" uuid="2be0a499-d751-482c-b9a8-0ea65c482edb"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="SansSerif" size="15" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{sigla_setor}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="vidraria_tipo">
+		<groupExpression><![CDATA[$F{vidraria_tipo}]]></groupExpression>
+		<groupHeader>
+			<band height="26">
+				<textField>
+					<reportElement positionType="Float" x="0" y="0" width="802" height="26" forecolor="#000000" uuid="dcfdfcd9-f50b-484f-b172-c86cbe57252f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{vidraria_tipo}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="18">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="802" height="18" forecolor="#000000" backcolor="#D5D5D5" uuid="8ee222fe-c727-474b-abb2-3e2dcc9d2923"/>
+				</frame>
+				<staticText>
+					<reportElement style="Column header" x="2" y="0" width="34" height="18" forecolor="#000000" uuid="fc669819-f04d-4139-80a4-c6bf24fb427f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="36" y="0" width="70" height="18" forecolor="#000000" uuid="e6ba2cbc-e044-4ed0-adcb-f5e020d3e54e"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Volume]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="106" y="0" width="113" height="18" forecolor="#000000" uuid="03fd6a81-f73a-4eca-a65b-01604928f8c0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Certificado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="219" y="0" width="198" height="18" forecolor="#000000" uuid="c7edc803-6141-4cae-bf9c-2c66e60742e3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Entrada / Responsável]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="417" y="0" width="233" height="18" forecolor="#000000" uuid="c309a4c3-5ce8-4f4d-9f1a-d2567b43b044"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Saída / Responsável]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="650" y="0" width="149" height="18" forecolor="#000000" uuid="1ddc7e65-e120-45e8-9992-44d9c878b564"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Observações]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="2">
+				<line>
+					<reportElement x="2" y="0" width="797" height="1" uuid="dcc4ea5b-6fda-4803-9d34-35b6e067adbc"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="33" backcolor="#006699" uuid="d962cbb4-cfc7-4abc-855f-666c6f0109bc"/>
+				<staticText>
+					<reportElement x="0" y="0" width="800" height="33" forecolor="#FFFFFF" uuid="1d557244-807d-47da-8f45-b39dd9806fab"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Vidrarias]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="2" y="0" width="797" height="18" uuid="7d7fa5cf-f768-4e0d-8cec-3d0291c793ea"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="34" y="0" width="70" height="18" uuid="278ee653-080f-4df9-bb6b-192d27419673"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{volume}+" "+$F{sigla_unidade}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="104" y="0" width="113" height="18" uuid="c3e2077d-d3b8-436f-864e-8eb036ac295c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{certificado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="217" y="0" width="78" height="18" uuid="b260c735-609d-4e1e-b202-8ccddbd3488b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{data_entrada}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="415" y="0" width="125" height="18" uuid="0cf54c7f-3a6c-4ab1-909a-73506f838e2e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{data_saida}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="648" y="0" width="149" height="18" uuid="5acbc298-3b6e-4de3-9cbd-26ca6d20855b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{obs_vidraria}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="295" y="0" width="120" height="18" uuid="c8630b27-a998-4b43-bac5-59325ade61b8"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{responsavel_entrada}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="540" y="0" width="108" height="18" uuid="fe878700-2635-4c72-a423-738928532222"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{responsavel_saida}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="0" width="36" height="18" uuid="1fdfee2f-0c4f-4adb-9b7b-ce6fb352c176"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vidraria_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="13">
+			<textField>
+				<reportElement mode="Opaque" x="2" y="0" width="763" height="13" backcolor="#E6E6E6" uuid="e72386f5-a2ec-4bd7-9cbf-526eb3d4c04f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="765" y="0" width="37" height="13" backcolor="#E6E6E6" uuid="4fdc39d2-373e-4801-91b3-cb85b6c959cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement x="119" y="0" width="179" height="13" uuid="999bd0c9-3c4e-4592-bc5d-375975000a3f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="2" y="0" width="117" height="13" uuid="72964694-46bc-42d4-9ddd-3e239dc5c32b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{User_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

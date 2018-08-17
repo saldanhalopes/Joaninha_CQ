@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RecepcaoEtiquetaCaixa" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca43ae5f-dd1c-4e37-bbee-f99046937127">
+	<property name="ireport.zoom" value="1.2590115293645028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="caixa_id" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM tb_caixa_rf
+WHERE caixa_rf_id = $P{caixa_id}]]>
+	</queryString>
+	<field name="caixa_rf_id" class="java.lang.Integer"/>
+	<field name="caixa" class="java.lang.String"/>
+	<field name="data_inicio" class="java.sql.Timestamp"/>
+	<field name="user_inicio" class="java.lang.String"/>
+	<field name="data_fim" class="java.sql.Timestamp"/>
+	<field name="user_fim" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<detail>
+		<band height="300">
+			<rectangle>
+				<reportElement x="0" y="0" width="516" height="300" uuid="8a3aaa25-7797-47dd-880a-ddfc4d3f062e"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" pattern="yyyy" isBlankWhenNull="true">
+				<reportElement x="44" y="269" width="472" height="31" uuid="072f3adb-a0db-4226-a190-b6819daa8ecb"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data_inicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="269" width="44" height="31" forecolor="#000000" backcolor="#E6E6E6" uuid="70e39d32-c7e1-4092-96a1-53497d4cccff"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ano:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="182" width="85" height="26" forecolor="#000000" backcolor="#E6E6E6" uuid="c991fc35-7f44-4306-b6c0-f99d0c350916"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Caixa:]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="0" y="208" width="516" height="61" forecolor="#000000" uuid="4bc2d3c2-aee8-4314-917a-f75669e38c11"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="47"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{caixa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="101" width="516" height="30" forecolor="#000000" uuid="a47526f5-7423-43dd-9489-fbe73bbace48"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTROLE DE QUALIDADE]]></text>
+			</staticText>
+			<image>
+				<reportElement x="180" y="10" width="199" height="91" uuid="f404d7ee-d0d2-4d46-bb97-e9f1d24e31d2"/>
+				<imageExpression><![CDATA["C:\\CQ_Desktop\\logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="131" width="516" height="31" forecolor="#000000" uuid="4fcef955-1a2e-45e0-bd44-a68db0a1c44f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amostras]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

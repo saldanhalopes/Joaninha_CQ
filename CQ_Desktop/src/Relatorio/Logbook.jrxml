@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VagaColuna" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca43ae5f-dd1c-4e37-bbee-f99046937127">
+	<property name="ireport.zoom" value="1.2745232708414267"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM myTable]]>
+	</queryString>
+	<field name="log_cromatografo_id" class="java.lang.Object"/>
+	<field name="analise_status_id" class="java.lang.Object"/>
+	<field name="coluna_id" class="java.lang.Object"/>
+	<field name="fase_movel_id" class="java.lang.Object"/>
+	<field name="log_system_name" class="java.lang.Object"/>
+	<field name="data_inicio" class="java.lang.Object"/>
+	<field name="data_fim" class="java.lang.Object"/>
+	<field name="data_registro" class="java.lang.Object"/>
+	<field name="descricao" class="java.lang.Object"/>
+	<field name="user_name" class="java.lang.Object"/>
+	<field name="campanha" class="java.lang.Object"/>
+	<field name="metodos" class="java.lang.Object"/>
+	<field name="obs_log" class="java.lang.Object"/>
+	<variable name="Data_Inicio" class="java.util.Date">
+		<variableExpression><![CDATA[new Date($F{data_inicio})]]></variableExpression>
+	</variable>
+	<variable name="Data_Fim" class="java.util.Date">
+		<variableExpression><![CDATA[new Date($F{data_fim})]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="27"/>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="20" y="0" width="100" height="20" uuid="02e2ba2f-41d1-472b-98bc-046828e8e71f"/>
+				<text><![CDATA[log_cromatografo_id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="0" width="100" height="20" uuid="2779ebe3-af03-4c6a-aa91-1c72afe31aaf"/>
+				<text><![CDATA[data_inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="100" height="20" uuid="dcf4f131-e863-4ebc-b3f5-22a19f67b2fa"/>
+				<text><![CDATA[data_fim]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26">
+			<textField>
+				<reportElement x="20" y="2" width="100" height="20" uuid="a0f9756c-ed97-4ecf-a31d-f4b268a94fff"/>
+				<textFieldExpression><![CDATA[""+$F{log_cromatografo_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="330" y="2" width="100" height="20" uuid="f27ade2a-e757-406a-8839-49cebce8ed80"/>
+				<textFieldExpression><![CDATA[($V{Data_Fim}.getTime()- $V{Data_Inicio}.getTime())/60000]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="430" y="2" width="100" height="20" uuid="11c421f0-3b25-431e-9a7c-9644f744c138"/>
+				<textFieldExpression><![CDATA[($V{Data_Fim}.getTime()- $V{Data_Inicio}.getTime())/86400000]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="574" y="0" width="100" height="20" uuid="839cb797-0633-498b-8b55-c54880562b37"/>
+				<textFieldExpression><![CDATA[$V{Data_Fim}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="2" width="100" height="20" uuid="c6f7a436-a41f-4616-9153-cd0744636119"/>
+				<textFieldExpression><![CDATA[$V{Data_Inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="2" width="100" height="20" uuid="9db989e4-a10f-4d9a-b1b2-7de49e9529b6"/>
+				<textFieldExpression><![CDATA[$V{Data_Fim}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="14"/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

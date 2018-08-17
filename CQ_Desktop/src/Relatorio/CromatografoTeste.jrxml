@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CromatografoIndividual" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca43ae5f-dd1c-4e37-bbee-f99046937127">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="156"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="User_name" class="java.lang.String"/>
+	<parameter name="data_inicio" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_fim" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="system_name" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT tb_log_cromatografo.log_cromatografo_id,
+tb_log_cromatografo.data_inicio, tb_log_cromatografo.data_fim,
+tb_analise_status.analise_status, tb_analise_status.analise_produtividade_id,
+tb_log_cromatografo.data_registro, tb_analise_produtividade.cor,
+tb_log_cromatografo.descricao, tb_log_cromatografo.user_name,
+SUBSTR(tb_log_cromatografo.descricao,0,5) as tipo_descricao
+FROM tb_log_cromatografo
+LEFT JOIN tb_analise_status
+ON tb_log_cromatografo.analise_status_id = tb_analise_status.analise_status_id
+LEFT JOIN tb_cromatografo
+ON tb_log_cromatografo.log_system_name = tb_cromatografo.system_name
+LEFT JOIN tb_analise_produtividade
+ON tb_analise_status.analise_produtividade_id = tb_analise_produtividade.analise_produtividade_id
+WHERE tb_cromatografo.system_name = $P{system_name}
+AND (tb_log_cromatografo.log_ativo IS NULL OR tb_log_cromatografo.log_ativo = 1)
+AND tb_log_cromatografo.data_fim BETWEEN $P{data_inicio} AND $P{data_fim}
+ORDER BY  tb_analise_status.analise_status, tipo_descricao, tb_log_cromatografo.data_inicio]]>
+	</queryString>
+	<field name="log_cromatografo_id" class="java.lang.Object"/>
+	<field name="data_inicio" class="java.sql.Timestamp"/>
+	<field name="data_fim" class="java.sql.Timestamp"/>
+	<field name="analise_status" class="java.lang.Object"/>
+	<field name="analise_produtividade_id" class="java.lang.Object"/>
+	<field name="data_registro" class="java.lang.Object"/>
+	<field name="cor" class="java.lang.Object"/>
+	<field name="descricao" class="java.lang.Object"/>
+	<field name="user_name" class="java.lang.Object"/>
+	<field name="tipo_descricao" class="java.lang.Object"/>
+	<variable name="TOTAL_ATIVIDADE_TIPO" class="java.lang.Double" resetType="Group" resetGroup="Tipo" calculation="Sum">
+		<variableExpression><![CDATA[($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_ATIVIDADE_ANALISE" class="java.lang.Double" resetType="Group" resetGroup="Analise" calculation="Sum">
+		<variableExpression><![CDATA[($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_ATIVIDADE" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_HORAS" class="java.lang.Double" resetType="None">
+		<variableExpression><![CDATA[($P{data_fim}.getTime()-$P{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="MENOR_HORA_INICIAL" class="java.lang.Double" calculation="Lowest">
+		<variableExpression><![CDATA[($F{data_inicio}.getTime()-$P{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="MENOR_HORA_FINAL" class="java.lang.Double" calculation="Lowest">
+		<variableExpression><![CDATA[($P{data_fim}.getTime()-$F{data_fim}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.Double" resetType="Group" resetGroup="Tipo" calculation="Sum">
+		<variableExpression><![CDATA[(($P{data_inicio}.getTime()-$F{data_inicio}.getTime()) / 3600000)> 0 ? (($F{data_fim}.getTime()-$P{data_inicio}.getTime()) / 3600000): ($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="variable1_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[(($P{data_inicio}.getTime()-$F{data_inicio}.getTime()) / 3600000)> 0 ? (($F{data_fim}.getTime()-$P{data_inicio}.getTime()) / 3600000): ($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<variable name="variable2" class="java.lang.Double" resetType="Group" resetGroup="Tipo" calculation="Sum">
+		<variableExpression><![CDATA[($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000]]></variableExpression>
+	</variable>
+	<group name="Analise">
+		<groupExpression><![CDATA[$F{analise_status}]]></groupExpression>
+		<groupFooter>
+			<band height="38">
+				<textField>
+					<reportElement x="206" y="0" width="100" height="20" uuid="74c40dd5-874c-4c8a-a76c-9b20415f6ef1"/>
+					<textFieldExpression><![CDATA[new DecimalFormat("0.00").format($V{TOTAL_ATIVIDADE_ANALISE})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="204" height="20" uuid="26fd82bc-0279-48b4-a227-b172a66a8f53"/>
+					<textFieldExpression><![CDATA[""+$F{analise_status}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Tipo">
+		<groupExpression><![CDATA[$F{tipo_descricao}]]></groupExpression>
+		<groupHeader>
+			<band height="23"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="24">
+				<textField>
+					<reportElement x="296" y="0" width="100" height="20" uuid="16d34036-6ffb-4fd9-82ac-e647e9328fce"/>
+					<textFieldExpression><![CDATA[new DecimalFormat("0.00").format($V{TOTAL_ATIVIDADE_TIPO})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="296" height="20" uuid="9045769b-1b56-407d-9d67-6a9f052ce00c"/>
+					<textFieldExpression><![CDATA[$F{analise_status} + " - " +$F{descricao}.split("-")[0]]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="396" y="0" width="100" height="20" uuid="5c5ff6a1-c455-46b8-b90a-6d004157e5fb"/>
+					<textFieldExpression><![CDATA[new DecimalFormat("0.00").format(($V{variable1}*100)/($V{TOTAL_HORAS}))+" %"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="492" y="4" width="100" height="20" uuid="fed04f53-4bc7-4b7d-9d1a-b2836e481978"/>
+					<textFieldExpression><![CDATA[($V{TOTAL_HORAS} - ($V{MENOR_HORA_FINAL} + $V{MENOR_HORA_INICIAL}))]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="697" y="0" width="100" height="20" uuid="1d4b510c-6196-4538-9af0-9e67227b4f1d"/>
+					<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="602" y="0" width="95" height="20" uuid="c2f1af58-b155-447f-9ec3-4d58322759d5"/>
+					<textFieldExpression><![CDATA[$V{variable2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<pageHeader>
+		<band height="40">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="40" backcolor="#006699" uuid="089ac58e-3d9f-46aa-9507-6c4c0a2feb2c"/>
+				<staticText>
+					<reportElement x="0" y="10" width="344" height="20" forecolor="#FFFFFF" uuid="a47526f5-7423-43dd-9489-fbe73bbace48"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RELATÓRIO - DETALHADO]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="592" y="10" width="105" height="20" forecolor="#FFFFFF" uuid="086af351-6f79-467d-a680-434963f6c094"/>
+					<box rightPadding="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{data_inicio}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="697" y="10" width="105" height="20" forecolor="#FFFFFF" uuid="845a9cb2-9065-4818-91d3-48fba11346ee"/>
+					<box rightPadding="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{data_fim}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="344" y="10" width="105" height="20" forecolor="#FFFFFF" uuid="88162775-b40e-489f-8264-d75ef5860ee4"/>
+					<box rightPadding="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{system_name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="472" y="10" width="100" height="20" uuid="c5833a4a-1576-4bae-9461-5d2ef00ef51d"/>
+					<textFieldExpression><![CDATA[new DecimalFormat("0.00").format($V{TOTAL_HORAS})]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="5" width="244" height="20" uuid="96ebcf34-14f6-469a-ac7a-b9804b531cd8"/>
+				<text><![CDATA[analise_status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="5" width="100" height="20" uuid="1158633b-e3c6-4a03-be9c-c427384c923d"/>
+				<text><![CDATA[data_inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="5" width="100" height="20" uuid="d27def04-2b63-421b-b57d-4fd9f11289be"/>
+				<text><![CDATA[data_fim]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="602" y="5" width="200" height="20" uuid="331eb14f-b7b0-473f-b3a8-1c99fb757e60"/>
+				<text><![CDATA[descricao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="5" width="131" height="20" uuid="e23a591d-170c-4c10-986e-fa21e85d9bc7"/>
+				<text><![CDATA[data_registro]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27">
+			<textField pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="218" y="1" width="100" height="20" uuid="95190804-4149-4b0c-8f01-93bcdaebffc4"/>
+				<textFieldExpression><![CDATA[$F{data_inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="318" y="2" width="100" height="20" uuid="b4d52cc5-3337-4bab-b651-4fcd2a8d4086"/>
+				<textFieldExpression><![CDATA[$F{data_fim}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="659" y="1" width="143" height="20" uuid="b4a35c2f-5252-471e-ada7-e73646775796"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="1" width="148" height="20" uuid="56e232ca-1d87-4d5e-bab4-1fb719d312af"/>
+				<textFieldExpression><![CDATA[""+$F{analise_status}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="418" y="2" width="66" height="20" uuid="579c898d-aa0a-4536-a5d5-79b2f2ceb129"/>
+				<textFieldExpression><![CDATA[new Integer((int)(($F{data_fim}.getTime()-$F{data_inicio}.getTime()).doubleValue() / 3600000)).toString() + "hs : " +
+new Integer((int)((($F{data_fim}.getTime()-$F{data_inicio}.getTime()).doubleValue() / 60000) % 60)).toString() + "mm"]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="484" y="2" width="59" height="20" uuid="c0081ac0-09ff-440b-a648-909acfb0d56d"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("0.00").format(($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000)]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="543" y="2" width="59" height="20" uuid="91675301-f5b4-4819-8709-a51bc278ff9c"/>
+				<textFieldExpression><![CDATA[$V{variable1_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="2" width="43" height="20" uuid="2154704a-0c34-4e34-a6f5-79e1a34fb6a8"/>
+				<textFieldExpression><![CDATA[""+$F{log_cromatografo_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="602" y="2" width="57" height="20" uuid="f446b4b1-33f1-40fa-a524-eb6b80e63371"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("0.00").format((($P{data_inicio}.getTime()-$F{data_inicio}.getTime()) / 3600000)> 0 ?
+(($F{data_fim}.getTime()-$P{data_inicio}.getTime()) / 3600000):
+($F{data_fim}.getTime()-$F{data_inicio}.getTime()) / 3600000)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="13">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="765" height="13" backcolor="#E6E6E6" uuid="a801aea3-83fa-4382-baf5-f877e2a5b4bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="765" y="0" width="37" height="13" backcolor="#E6E6E6" uuid="5cb24f14-1bdc-484d-b692-c2a24f11e9de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="117" height="13" uuid="c66b57cc-9486-48bb-90b8-70a9d50833e2"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{User_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement x="117" y="0" width="179" height="13" uuid="13537a6d-b7fc-40a0-af5b-e11b934c390e"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="218">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="10" width="802" height="20" forecolor="#000000" backcolor="#999999" uuid="31b722cd-8fc2-48e4-821f-ce0cc336a5b4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="531" y="30" width="62" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="3be78f13-9841-4fa7-ab33-e0bb6a6e86f6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tempo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="593" y="30" width="66" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="1af0f654-67d5-49f6-bc77-c0fd07eb1f27"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lotes PA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="731" y="30" width="71" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="ba27d1bc-6fa1-4920-84c3-5a99e567b994"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="659" y="30" width="72" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="00f1d9af-02f1-4f40-8194-6b1ed0d77aed"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Produtos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="306" y="50" width="100" height="20" uuid="b3eb062d-7db6-4462-9894-59cd9672ac8c"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("0.00").format($V{TOTAL_ATIVIDADE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="50" width="100" height="20" uuid="66244287-6471-4a74-af42-ae7ed6a365ca"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("0.00").format(($V{variable1_1}*100)/$V{TOTAL_HORAS})+" %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="87" width="100" height="20" uuid="63146451-f465-49f9-aaa0-b3f2173c8d9d"/>
+				<textFieldExpression><![CDATA[$V{MENOR_HORA_INICIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="87" width="100" height="20" uuid="cdce56cf-36d4-40d1-ad44-5b31c13a8c31"/>
+				<textFieldExpression><![CDATA[$V{MENOR_HORA_FINAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="87" width="100" height="20" uuid="c76dabed-a9ab-4c4b-928e-ced090eb0bab"/>
+				<textFieldExpression><![CDATA[$V{TOTAL_HORAS} + $V{MENOR_HORA_INICIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="531" y="87" width="100" height="20" uuid="eedea8cc-e2bd-4b89-b8bd-ada55340dd72"/>
+				<textFieldExpression><![CDATA[$V{variable1_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

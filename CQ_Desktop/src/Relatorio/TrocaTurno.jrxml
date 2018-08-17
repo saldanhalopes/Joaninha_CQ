@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TrocaTurno" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ed8bcd74-16e3-43fd-8d62-f4cc51736e27">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Turno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select 1]]>
+	</queryString>
+	<field name="1" class="java.lang.Object"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="9141b0f9-b2fc-4edf-bf74-9b4b5ad5d753"/>
+				<staticText>
+					<reportElement x="20" y="20" width="337" height="43" forecolor="#FFFFFF" uuid="4f1514af-2e77-4115-a654-3e4586c4951a"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Passagem de Turno]]></text>
+				</staticText>
+				<textField pattern="dd &quot;de&quot; MMMMM yyyy">
+					<reportElement x="409" y="40" width="166" height="23" forecolor="#FFFFFF" uuid="6d749ba8-051b-4a61-92bd-f6267bb70305"/>
+					<textElement textAlignment="Right">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="183" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="c81a982c-2a20-4ead-8e43-ee2ee276161c"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalhes]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="96204b61-725c-428b-b2df-c75e9f976780"/>
+			</line>
+			<textField>
+				<reportElement x="261" y="1" width="100" height="20" uuid="ab865d47-ce54-436c-a4cd-57cd5d150c90"/>
+				<textFieldExpression><![CDATA[""+$F{1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="62ad6d0d-f400-42e8-a326-65d2af18ca5d"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="183" height="20" uuid="6b580fb0-5c6c-457b-81dc-c30f9b2f9479"/>
+				<textFieldExpression><![CDATA[$P{Turno}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="e5076f59-f9c3-4c34-ad80-6726e4b32e21"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="a8df344c-39b8-49dd-b64e-a2231c7c735e"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="63006477-adbd-4b01-b715-7cb3da14eab9"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

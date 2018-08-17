@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProdutividadeGeralColaborador" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca43ae5f-dd1c-4e37-bbee-f99046937127">
+	<property name="ireport.zoom" value="1.2590115293645128"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="User_name" class="java.lang.String"/>
+	<parameter name="data_inicio" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_fim" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT tb_atividade_preparo.*, tb_metodologia.cod_metodo,
+tb_analise.analise, tb_cromatografo.system_name,
+tb_users.cracha, tb_users.name
+FROM tb_atividade_preparo
+LEFT JOIN  tb_metodologia
+ON tb_atividade_preparo.metodo_id =  tb_metodologia.metodo_id
+LEFT JOIN  tb_analise
+ON tb_atividade_preparo.analise_id =  tb_analise.analise_id
+LEFT JOIN  tb_cromatografo
+ON tb_atividade_preparo.cromatografo_id =  tb_cromatografo.cromatografo_id
+INNER JOIN tb_users
+ON tb_users.user_name = tb_atividade_preparo.user_inicio
+WHERE tb_atividade_preparo.data_hora_fim is NOT NULL
+AND tb_atividade_preparo.data_hora_inicio BETWEEN $P{data_inicio} AND $P{data_fim}
+ORDER BY tb_atividade_preparo.user_inicio, tb_atividade_preparo.categoria_preparo, tb_atividade_preparo.analise_id, tb_atividade_preparo.data_hora_inicio]]>
+	</queryString>
+	<field name="atividade_preparo_id" class="java.lang.Object"/>
+	<field name="metodo_id" class="java.lang.Object"/>
+	<field name="analise_id" class="java.lang.Object"/>
+	<field name="cromatografo_id" class="java.lang.Object"/>
+	<field name="categoria_preparo" class="java.lang.Object"/>
+	<field name="tipo_preparo" class="java.lang.Object"/>
+	<field name="descricao_preparo" class="java.lang.Object"/>
+	<field name="lote_preparo" class="java.lang.Object"/>
+	<field name="qtd_preparo" class="java.lang.Object"/>
+	<field name="data_hora_inicio" class="java.lang.Object"/>
+	<field name="user_inicio" class="java.lang.Object"/>
+	<field name="data_hora_fim" class="java.lang.Object"/>
+	<field name="user_fim" class="java.lang.Object"/>
+	<field name="data_hora_registro" class="java.lang.Object"/>
+	<field name="user_registro" class="java.lang.Object"/>
+	<field name="obs_preparo" class="java.lang.Object"/>
+	<field name="retrabalho_preparo" class="java.lang.Object"/>
+	<field name="motivo_retrabalho" class="java.lang.Object"/>
+	<field name="categoria_retrabalho" class="java.lang.Object"/>
+	<field name="tipo_retrabalho" class="java.lang.Object"/>
+	<field name="gerador_retrabalho" class="java.lang.Object"/>
+	<field name="user_retrabalho" class="java.lang.Object"/>
+	<field name="data_hora_registro_retrabalho" class="java.lang.Object"/>
+	<field name="user_registro_retrabalho" class="java.lang.Object"/>
+	<field name="cod_metodo" class="java.lang.Object"/>
+	<field name="analise" class="java.lang.Object"/>
+	<field name="system_name" class="java.lang.Object"/>
+	<field name="cracha" class="java.lang.Object"/>
+	<field name="name" class="java.lang.Object"/>
+	<variable name="ATIVIDADE_COUNT" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{atividade_preparo_id}]]></variableExpression>
+	</variable>
+	<variable name="USUARIOS_COUNT" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{user_inicio}]]></variableExpression>
+	</variable>
+	<variable name="RETRABALHO_COUNT" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{retrabalho_preparo}]]></variableExpression>
+	</variable>
+	<variable name="atividade_preparo_id_2" class="java.lang.Integer" resetType="Group" resetGroup="Analista" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{atividade_preparo_id}]]></variableExpression>
+	</variable>
+	<variable name="user_inicio_1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$V{user_inicio_1}]]></variableExpression>
+	</variable>
+	<variable name="user_fim_1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{user_fim}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_HORAS_ATIVIDADE_1" class="java.lang.Double" resetType="Group" resetGroup="Analista" calculation="Sum">
+		<variableExpression><![CDATA[(($F{data_hora_fim}-$F{data_hora_inicio}).doubleValue() / 3600000)]]></variableExpression>
+	</variable>
+	<variable name="LOTES_COUNT_1" class="java.lang.Integer" resetType="Group" resetGroup="Analista" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{analise_id} > 0 ? $F{lote_preparo} : null]]></variableExpression>
+	</variable>
+	<variable name="METODO_COUNT_1" class="java.lang.Integer" resetType="Group" resetGroup="Analista" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{cod_metodo}]]></variableExpression>
+	</variable>
+	<variable name="EQUIPAMENTO_COUNT_1" class="java.lang.Integer" resetType="Group" resetGroup="Analista" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{cromatografo_id}]]></variableExpression>
+	</variable>
+	<variable name="retrabalho_preparo_2" class="java.lang.Integer" resetType="Group" resetGroup="Analista" calculation="Sum">
+		<variableExpression><![CDATA[$F{retrabalho_preparo}]]></variableExpression>
+	</variable>
+	<group name="Analista">
+		<groupExpression><![CDATA[$F{user_inicio}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement mode="Transparent" x="310" y="0" width="51" height="20" backcolor="#FFFFFF" uuid="381da87c-c182-43ff-ae1e-9a6926e14127"/>
+					<box leftPadding="5" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{LOTES_COUNT_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00 hs">
+					<reportElement mode="Transparent" x="246" y="0" width="64" height="20" backcolor="#FFFFFF" uuid="ec35b6a2-1513-4907-a533-320be4aab39c"/>
+					<box leftPadding="5" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_HORAS_ATIVIDADE_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="420" y="0" width="69" height="20" backcolor="#FFFFFF" uuid="7f3cae3c-d897-444e-85cb-e8658093ad6a"/>
+					<box leftPadding="5" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{EQUIPAMENTO_COUNT_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="183" y="0" width="63" height="20" backcolor="#FFFFFF" uuid="09edd7c6-90be-4666-9868-2a1a6360266b"/>
+					<box leftPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{atividade_preparo_id_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="489" y="0" width="66" height="20" backcolor="#FFFFFF" uuid="885a0f73-958c-4199-ab76-2a85ab452401"/>
+					<box leftPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{retrabalho_preparo_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="361" y="0" width="59" height="20" backcolor="#FFFFFF" uuid="cccd3fe6-e64f-4a4d-8568-23da7ffb559d"/>
+					<box leftPadding="5" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{METODO_COUNT_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy HH:mm" isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="183" height="20" uuid="2f4178e7-e157-4b53-b7de-aea4d865be91"/>
+					<box leftPadding="5" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cracha} + " - " + $F{name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<pageHeader>
+		<band height="40">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="40" backcolor="#006699" uuid="089ac58e-3d9f-46aa-9507-6c4c0a2feb2c"/>
+				<staticText>
+					<reportElement x="0" y="10" width="345" height="20" forecolor="#FFFFFF" uuid="a47526f5-7423-43dd-9489-fbe73bbace48"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[PRODUTIVIDADE / ANALISTA]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="345" y="10" width="105" height="20" forecolor="#FFFFFF" uuid="086af351-6f79-467d-a680-434963f6c094"/>
+					<box rightPadding="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{data_inicio}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="450" y="10" width="105" height="20" forecolor="#FFFFFF" uuid="845a9cb2-9065-4818-91d3-48fba11346ee"/>
+					<box rightPadding="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{data_fim}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="361" y="0" width="59" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="c991fc35-7f44-4306-b6c0-f99d0c350916"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Produtos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="310" y="0" width="51" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="0fee0915-9f49-4a01-97d2-20152ddf9010"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lotes PA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="420" y="0" width="69" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="41143b34-d884-445c-a70f-d112715367e9"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipamentos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="183" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="8a2d0a5b-6dfe-4b99-bcc0-e46cd88a88d0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Analista]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="183" y="0" width="63" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="9742caf8-56f9-4f70-88c3-720c517a11de"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atividades]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="489" y="0" width="66" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="8c4a0682-bad4-4cfb-aa8c-959ff1bbe7dd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Retrabalhos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="246" y="0" width="64" height="20" forecolor="#000000" backcolor="#E6E6E6" uuid="4fbe5a99-b01d-4c6e-ab61-03fc5a9a4835"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tempo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="518" height="13" backcolor="#E6E6E6" uuid="a801aea3-83fa-4382-baf5-f877e2a5b4bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="518" y="4" width="37" height="13" backcolor="#E6E6E6" uuid="5cb24f14-1bdc-484d-b692-c2a24f11e9de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="117" height="13" uuid="c66b57cc-9486-48bb-90b8-70a9d50833e2"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{User_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement x="117" y="4" width="179" height="13" uuid="13537a6d-b7fc-40a0-af5b-e11b934c390e"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
